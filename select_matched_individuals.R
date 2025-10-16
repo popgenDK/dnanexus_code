@@ -35,4 +35,4 @@ for (i in 1:nrow(keeps)){
         !is.na(ukb$Diabetes_diagnosed_by_doctor), 'Participant_ID'][1:keep$ukb_matched_n])
 }
 matched <- subset(ukb, Participant_ID %in% ukb_matched_ids)
-write.table(ukb_matched_ids, '~/match_ids_ukb.txt', row.names = F, col.names = F)
+write.table(ukb_matched_ids, '~/matched_ids_ukb.txt', row.names = F, col.names = F)
