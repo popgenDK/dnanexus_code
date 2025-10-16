@@ -57,11 +57,14 @@ dev.off()
 counts$touse <- as.numeric(counts$count_pro > 1 &
   counts$ukb_div_pro >= choice &
   !is.na(counts$ukb_div_pro))
+counts$ukb_matched_n <- NA
+
+# Add how many UKB to use in category based on choice.
+counts[counts$touse==1, 'ukb_matched_n'] <- counts[counts$touse==1, 'count_pro']*choice
+
 counts$bmilow <- as.numeric(gsub('\\(([^,]*),[^\\]*]','\\1',counts$bmi))
 counts$bmihig <- as.numeric(gsub('\\([^,]*,([^\\]*)]','\\1',counts$bmi))
 counts$agelow <- as.numeric(gsub('\\(([^,]*),[^\\]*]','\\1',counts$age))
 counts$agehig <- as.numeric(gsub('\\([^,]*,([^\\]*)]','\\1',counts$age))
 
 write.table(counts, '~/counts_touse.tsv',sep='\t', row.names = F, quote = F)
-write.table(choice, '~/ukb_factor_choice.txt', row.names = F, quote = F, col.names = F)
-
