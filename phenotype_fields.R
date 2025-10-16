@@ -1,4 +1,4 @@
-fields <- data.table::fread('ukbb_fields.tsv', da=F, quote="",
+fields <- data.table::fread('~/ukbb_fields.tsv', da=F, quote="",
   header=F, col.names = c('entityfield', 'title'))
 
 foi <- rbind(
@@ -15,6 +15,6 @@ foi <- rbind(
   fields[grep('p2443_i0', fields$entityfield),], # diab
   fields[grep('p30750_i0', fields$entityfield),] # hba1c
 )
-write.table(foi[,'entityfield'], 'foi.fields', row.names = F, quote = F, col.names = F)
+write.table(foi[,'entityfield'], '~/foi.fields', row.names = F, quote = F, col.names = F)
 foi$title <- gsub(' ','_',gsub(' \\| Instance 0|\\(|\\)','',foi$title))
-write.table(foi, 'foi.fieldnames', row.names = F, quote = F, sep='\t')
+write.table(foi, '~/foi.fieldnames', row.names = F, quote = F, sep='\t')
