@@ -3,6 +3,7 @@ rownames(ukb_fieldnames) <- ukb_fieldnames$entityfield
 ukb <- data.table::fread('~/foi.tsv', da=F)
 colnames(ukb) <- ukb_fieldnames[colnames(ukb), 'title']
 ukb <- subset(ukb, Genetic_ethnic_grouping == 1)
+ukb[!ukb$Diabetes_diagnosed_by_doctor %in% 0:1, 'Diabetes_diagnosed_by_doctor'] <- NA
 
 # BMI and age cuts.
 steps <- 5
@@ -11,7 +12,7 @@ bmirange <- c(10, 70)
 ukb$age_cut <- cut(round(ukb$Age_at_recruitment), seq(agerange[1], agerange[2], steps))
 ukb$bmi_cut <- cut(round(ukb$Body_mass_index_BMI), seq(bmirange[1], bmirange[2], steps))
 ukb$sex_MF <- ifelse(ukb$Sex==1, 'M', 'F')
-ukb[!ukb$Diabetes_diagnosed_by_doctor %in% 0:1, 'Diabetes_diagnosed_by_doctor'] <- NA
+
 ukb_counts <- as.data.frame(table(ukb$age_cut, ukb$bmi_cut, ukb$sex_MF, ukb$Diabetes_diagnosed_by_doctor))
 colnames(ukb_counts) <- c('age', 'bmi', 'sex', 't2d','count_ukb')
 
@@ -62,4 +63,5 @@ counts$agelow <- as.numeric(gsub('\\(([^,]*),[^\\]*]','\\1',counts$age))
 counts$agehig <- as.numeric(gsub('\\([^,]*,([^\\]*)]','\\1',counts$age))
 
 write.table(counts, '~/counts_touse.tsv',sep='\t', row.names = F, quote = F)
+write.table(choice, '~/ukb_factor_choice.txt', row.names = F, quote = F, col.names = F)
 
